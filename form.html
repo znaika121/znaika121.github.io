@@ -80,7 +80,7 @@
             const UTM = urlParams.get('UTM') || '';
     
             // Construct dynamic Telegram link
-            const fullLink = 'https://tg.pulse.is/bot130825bot?start=68cd64658de067b2820727dc&UTM=${encodeURIComponent(UTM)}';
+            const fullLink = `https://tg.pulse.is/bot130825bot?start=68cd64658de067b2820727dc&UTM=${encodeURIComponent(UTM)}`;
           //  const fullLink = 'https://tg.pulse.is/bot130825bot?start=68cd64658de067b2820727dc&UTM=value1'
             // Open the Telegram link
             window.open(fullLink, "_blank");

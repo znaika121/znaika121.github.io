@@ -17,6 +17,75 @@
  <h1></h1><a href="form3.html">Третья страница</a></h1>
  <h1></h1><a href="form4.html">Четвертая страница</a></h1> 
 
+
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .title {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .author {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+        }
+        .description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #24A1DE; /* Telegram blue */
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #1e78a4;
+        }
+    </style>
+    <script>
+        function trackButtonClick() {
+            fbq('track', 'Lead'); // Track the button click as a "Lead" event
+    
+            // Get UTM parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const UTM = urlParams.get('UTM') || '';
+    
+            // Construct dynamic Telegram link
+            const fullLink = `https://tg.pulse.is/bot130825bot?start=689caaaddf3b876af00cd7ce&UTM=${encodeURIComponent(UTM)}`;
+    
+            // Open the Telegram link
+            window.open(fullLink, "_blank");
+        }
+    </script>    
+  
  </body>
 </html>
 

@@ -10,6 +10,121 @@
  
 
 <script src="//s3.eu-central-1.amazonaws.com/fbstore.sendpulse.stage/loader.js" data-sp-widget-id="56706acc-2180-4e38-85a6-e79c8e7938c3" async></script>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #1a1a2e; font-family: 'Segoe UI', sans-serif; padding: 24px; }
+  h1 { color: #fff; text-align: center; margin-bottom: 24px; font-size: 18px; font-weight: 400; opacity: 0.7; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .card {
+    width: 100%; aspect-ratio: 1;
+    border-radius: 16px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    background: inherit; opacity: 0.15;
+    border-radius: 50%; width: 200%; height: 200%;
+    top: -50%; left: -50%;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+  .num {
+    font-size: 72px; font-weight: 700; color: #fff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    line-height: 1; z-index: 1;
+  }
+  .label {
+    font-size: 14px; color: rgba(255,255,255,0.9);
+    margin-top: 10px; letter-spacing: 1px;
+    z-index: 1; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tg-icon { font-size: 16px; }
+  .filename {
+    font-size: 11px; color: rgba(255,255,255,0.5);
+    margin-top: 6px; z-index: 1;
+  }
+  .dl-btn {
+    margin-top: 8px; z-index: 1;
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff; font-size: 11px;
+    padding: 4px 12px; border-radius: 20px;
+    cursor: pointer; transition: background 0.2s;
+  }
+  .dl-btn:hover { background: rgba(255,255,255,0.35); }
+
+  .c0  { background: linear-gradient(135deg, #f72585, #b5179e); }
+  .c1  { background: linear-gradient(135deg, #7209b7, #560bad); }
+  .c2  { background: linear-gradient(135deg, #3a0ca3, #4361ee); }
+  .c3  { background: linear-gradient(135deg, #4cc9f0, #4361ee); }
+  .c4  { background: linear-gradient(135deg, #06d6a0, #118ab2); }
+  .c5  { background: linear-gradient(135deg, #ffd166, #ef476f); }
+  .c6  { background: linear-gradient(135deg, #e63946, #c1121f); }
+  .c7  { background: linear-gradient(135deg, #f4a261, #e76f51); }
+  .c8  { background: linear-gradient(135deg, #2ec4b6, #cbf3f0); }
+  .c9  { background: linear-gradient(135deg, #8338ec, #ff006e); }
+  .c10 { background: linear-gradient(135deg, #fb5607, #ffbe0b); }
+  .c11 { background: linear-gradient(135deg, #3d405b, #81b29a); }
+</style>
+
+<h1>Telegram канал — картинки для завантаження</h1>
+<div class="grid" id="grid"></div>
+
+<script>
+const cards = Array.from({length:12},(_,i)=>({num:i+1, filename:`telegram_${i+1}.jpg`}));
+const grid = document.getElementById('grid');
+
+cards.forEach(({num, filename}, i) => {
+  const card = document.createElement('div');
+  card.className = `card c${i}`;
+  card.innerHTML = `
+    <div class="num">${num}</div>
+    <div class="label"><span class="tg-icon">✈</span> Telegram канал</div>
+    <div class="filename">${filename}</div>
+    <button class="dl-btn" onclick="downloadCard(${i}, '${filename}')">Завантажити SVG</button>
+  `;
+  grid.appendChild(card);
+});
+
+const gradients = [
+  ['#f72585','#b5179e'],['#7209b7','#560bad'],['#3a0ca3','#4361ee'],
+  ['#4cc9f0','#4361ee'],['#06d6a0','#118ab2'],['#ffd166','#ef476f'],
+  ['#e63946','#c1121f'],['#f4a261','#e76f51'],['#2ec4b6','#cbf3f0'],
+  ['#8338ec','#ff006e'],['#fb5607','#ffbe0b'],['#3d405b','#81b29a']
+];
+
+function downloadCard(i, filename) {
+  const [c1, c2] = gradients[i];
+  const num = i + 1;
+  const svgName = filename.replace('.jpg', '.svg');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${c1}"/>
+      <stop offset="100%" stop-color="${c2}"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="400" rx="32" fill="url(#g)"/>
+  <text x="200" y="210" text-anchor="middle" dominant-baseline="middle"
+    font-family="Segoe UI, Arial, sans-serif" font-size="120" font-weight="700"
+    fill="white" opacity="0.95">${num}</text>
+  <text x="200" y="290" text-anchor="middle"
+    font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="400"
+    fill="rgba(255,255,255,0.9)" letter-spacing="3">✈ TELEGRAM КАНАЛ</text>
+</svg>`;
+  const blob = new Blob([svg], {type:'image/svg+xml'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = svgName;
+  a.click();
+}
+</script>
+  
   <h1></h1><a href="form.html">Вторая</a></h1>
  <h1></h1><a href="form3.html">Третья</a></h1>
  <h1></h1><a href="form4.html">Четвертая</a></h1>
